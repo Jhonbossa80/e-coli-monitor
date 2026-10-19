@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --background: #050914;
+  --foreground: #ededed;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+@keyframes bacteria-float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.015);
+  }
+}
+
+@keyframes bacteria-filament-flow {
+  to {
+    stroke-dashoffset: -44;
+  }
+}
+
+.bacteria-svg {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 360px);
+  overflow: visible;
+  animation: bacteria-float 5s ease-in-out infinite;
+  transition: opacity 250ms ease, filter 250ms ease;
+}
+
+.bacteria-membrane {
+  fill: url("#bacteria-body");
+  stroke: #67e8f9;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.35));
+  transition: stroke 250ms ease, filter 250ms ease;
+}
+
+.bacteria-inner-membrane {
+  fill: none;
+  stroke: rgba(167, 243, 252, 0.48);
+  stroke-width: 1;
+}
+
+.bacteria-cytoplasm {
+  fill: url("#bacteria-core");
+  stroke: rgba(103, 232, 249, 0.22);
+  stroke-width: 1;
+}
+
+.bacteria-dna {
+  fill: none;
+  stroke: #a5f3fc;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.82;
+  transition: stroke 250ms ease, opacity 250ms ease;
+}
+
+.bacteria-plasmid {
+  fill: none;
+  stroke: #c4b5fd;
+  stroke-width: 2;
+}
+
+.bacteria-ribosome {
+  fill: #67e8f9;
+  opacity: 0.9;
+  transition: opacity 250ms ease;
+}
+
+.bacteria-flagellum,
+.bacteria-pilus {
+  fill: none;
+  stroke: #67e8f9;
+  stroke-linecap: round;
+  stroke-dasharray: 5 6;
+  animation: bacteria-filament-flow 7s linear infinite;
+  transition: stroke 250ms ease;
+}
+
+.bacteria-flagellum {
+  stroke-width: 1.8;
+}
+
+.bacteria-pilus {
+  stroke-width: 1.4;
+  opacity: 0.72;
+}
+
+.bacteria-svg[data-observation-state="growth"] .bacteria-membrane {
+  filter: drop-shadow(0 0 18px rgba(34, 211, 238, 0.62));
+}
+
+.bacteria-svg[data-observation-state="no-growth"] .bacteria-ribosome {
+  opacity: 0.35;
+}
+
+.bacteria-svg[data-observation-state="no-growth"] .bacteria-dna {
+  opacity: 0.45;
+}
+
+.bacteria-svg[data-observation-state="no-growth"] .bacteria-flagellum,
+.bacteria-svg[data-observation-state="no-growth"] .bacteria-pilus {
+  stroke: #60a5fa;
+  animation-duration: 14s;
+}
+
+.bacteria-svg[data-observation-state="change"] .bacteria-membrane {
+  stroke: #a78bfa;
+  filter: drop-shadow(0 0 17px rgba(167, 139, 250, 0.55));
+}
+
+.bacteria-svg[data-observation-state="change"] .bacteria-dna,
+.bacteria-svg[data-observation-state="change"] .bacteria-flagellum,
+.bacteria-svg[data-observation-state="change"] .bacteria-pilus {
+  stroke: #c4b5fd;
+}
+
+.bacteria-svg[data-observation-state="pending"] {
+  opacity: 0.76;
+}
+
+.bacteria-svg[data-observation-state="pending"] .bacteria-flagellum,
+.bacteria-svg[data-observation-state="pending"] .bacteria-pilus {
+  animation-duration: 12s;
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bacteria-svg,
+  .bacteria-flagellum,
+  .bacteria-pilus {
+    animation: none;
+  }
+}
